@@ -1,0 +1,23 @@
+{
+  "name": "510-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuxingzhi/cs510-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liuxingzhi/cs510-project/issues"
+  },
+  "homepage": "https://github.com/liuxingzhi/cs510-project#readme",
+  "dependencies": {
+    "popoto": "^2.0.18"
+  }
+}
