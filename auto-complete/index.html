@@ -100,7 +100,7 @@
                             <p style="display: inline-block; width: 40%">Name:</p>
                             <input id="add-node-name" class="form-check-input" style="display: inline-block;">
                         </div>
-                        <button id="add-node-btn" class="btn btn-light">Submit</button>
+                        <button id="add-node-btn" class="btn btn-light" onclick="add_node()">Submit</button>
                     </section>
                     <br>
                     <section add-relation-form>
@@ -175,6 +175,7 @@
 <script src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script src="js/auto-complete.min.js"></script>
 <script src="js/main.js"></script>
+<script src=" https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 
 <script>
     // Demo Neo4j database settings hosted on GrapheneDb
@@ -182,6 +183,52 @@
     popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:fly");
 
     popoto.graph.WHEEL_ZOOM_ENABLED = false;
+
+
+    // const Http = new XMLHttpRequest();
+    const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+    // Http.setRequestHeader("Authorization", "Basic " + btoa("neo4j:fly"));
+    // var neo4j = require('neo4j-driver');
+
+
+    function add_node(){
+        var name = document.getElementById("add-node-name").value;
+        e = document.getElementById("add-node-select")
+        var attribute = e.options[e.selectedIndex].text;
+        // var request = require('request');
+        // request.post({
+        //     uri: "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit",
+        //     AUTHORIZATION: "Basic " + btoa("neo4j:fly"),
+        //     statements:{
+        //         statement: 'CREATE (${attribute} : {name : ${name}})'
+        //     }
+        // })
+        fetch(url, 
+        {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic bmVvNGo6Zmx5'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            json: {"statements": [{
+                "statement": "CREATE (n: ${attribute} {name: ${name}})", 
+                // parameters: {attribute, name}
+            }]}
+        },).then(response => response.json()).then(data => console.log(data));
+        // session.run('CREATE ($attribute : {name : $name})', {
+        //     nameParam: [name, attribute]
+        // })
+
+        // r.post({
+        //     uri: "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit",
+        //     AUTHORIZATION: "Basic bmVvNGo6Zmx5",
+        //     JSON: {
+        //         statements: "CREATE (${attribute} : {name : ${name}})"
+        //     }
+        // })
+
+    }
 
     popoto.provider.node.Provider = {
         "Topic": {
@@ -223,6 +270,25 @@
                 }
             });
     }
+
+    popoto.graph.on(popoto.graph.Events.GRAPH_NODE_RELATION_ADD, function (relations) {
+        var newRelation = relations[0];
+
+        // Collapse all expanded choose nodes first to avoid having value node in selection.
+        popoto.graph.node.collapseAllNode();
+
+        var linksToRemove = popoto.dataModel.links.filter(function (link) {
+            // All other links starting from same source node except new one.
+            return link !== newRelation && link.source === newRelation.source;
+        });
+
+        linksToRemove.forEach(function (link) {
+            var willChangeResults = popoto.graph.node.removeNode(link.target);
+            popoto.result.hasChanged = popoto.result.hasChanged || willChangeResults;
+        });
+
+        popoto.update();
+    });
 
     initCollapsible();
 
