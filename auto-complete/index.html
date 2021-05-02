@@ -85,11 +85,11 @@
             </div>
             <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0;">
                 <div id="popoto-taxonomy" class="ppt-taxo-nav" style="color: white; width: 280px">
-                    <section add-collection-form>
-                        <p>Add Relation</p>
+                    <section add-node-form>
+                        <p>Add Node</p>
                         <div>
                             <p style="display: inline-block; width: 40%">Source:</p>
-                            <select class="form-select" aria-label="Default select example"
+                            <select id="add-node-select" class="form-select" aria-label="Default select example"
                                     style="width: 100px; display: inline-block">
                                 <option value="1">Topic</option>
                                 <option value="2">Model</option>
@@ -98,16 +98,16 @@
                         </div>
                         <div>
                             <p style="display: inline-block; width: 40%">Name:</p>
-                            <input class="form-check-input" style="display: inline-block;">
+                            <input id="add-node-name" class="form-check-input" style="display: inline-block;">
                         </div>
-                        <button class="btn btn-light">Submit</button>
+                        <button id="add-node-btn" class="btn btn-light">Submit</button>
                     </section>
                     <br>
                     <section add-relation-form>
                         <p>Add Relation</p>
                         <div>
                             <p style="display: inline-block; width: 40%">Source:</p>
-                            <select class="form-select" aria-label="Default select example"
+                            <select id="add-rel-src-select" class="form-select" aria-label="Default select example"
                                     style="width: 100px; display: inline-block">
                                 <option value="1">Topic</option>
                                 <option value="2">Model</option>
@@ -116,7 +116,7 @@
                         </div>
                         <div>
                             <p style="display: inline-block; width: 40%">Destination:</p>
-                            <select class="form-select" aria-label="Default select example"
+                            <select id="add-rel-dest-select" class="form-select" aria-label="Default select example"
                                     style="width: 100px; display: inline-block">
                                 <option value="1">Topic</option>
                                 <option value="2">Model</option>
@@ -125,12 +125,12 @@
                         </div>
                         <div>
                             <p style="display: inline-block; width: 40%">Relation:</p>
-                            <select class="form-select" aria-label="Default select example"
+                            <select id="add-rel-rel-select" class="form-select" aria-label="Default select example"
                                     style="width: 100px; display: inline-block">
                                 <option selected>cover</option>
                             </select>
                         </div>
-                        <button class="btn btn-light">Submit</button>
+                        <button id="add-rel-btn" class="btn btn-light">Submit</button>
                     </section>
                 </div>
                 <div id="popoto-graph" class="ppt-div-graph">
