@@ -203,18 +203,28 @@
         //         statement: 'CREATE (${attribute} : {name : ${name}})'
         //     }
         // })
+        
+
+        data = {
+            "statements": [
+                {
+                    "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
+                    // statement : "MATCH (n:Topic) RETURN n, labels(n) as l LIMIT {limit}"
+                }
+            ],
+            // parameters: {attribute: "Topic", name: "IR"}
+            // parameters: {limit: 10}
+        }
+        console.log(data)
         fetch(url, 
         {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic bmVvNGo6Zmx5'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic bmVvNGo6Zmx5',
+                'Accept': 'application/json;charset=UTF-8'
             },
-            json: {"statements": [{
-                "statement": "CREATE (n: ${attribute} {name: ${name}})", 
-                // parameters: {attribute, name}
-            }]}
+            body: JSON.stringify(data)
         },).then(response => response.json()).then(data => console.log(data));
         // session.run('CREATE ($attribute : {name : $name})', {
         //     nameParam: [name, attribute]
