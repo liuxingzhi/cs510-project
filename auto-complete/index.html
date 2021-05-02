@@ -184,36 +184,22 @@
 
     popoto.graph.WHEEL_ZOOM_ENABLED = false;
 
-
-    // const Http = new XMLHttpRequest();
     const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
-    // Http.setRequestHeader("Authorization", "Basic " + btoa("neo4j:fly"));
-    // var neo4j = require('neo4j-driver');
+
 
 
     function add_node(){
         var name = document.getElementById("add-node-name").value;
         e = document.getElementById("add-node-select")
         var attribute = e.options[e.selectedIndex].text;
-        // var request = require('request');
-        // request.post({
-        //     uri: "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit",
-        //     AUTHORIZATION: "Basic " + btoa("neo4j:fly"),
-        //     statements:{
-        //         statement: 'CREATE (${attribute} : {name : ${name}})'
-        //     }
-        // })
-        
 
         data = {
             "statements": [
                 {
                     "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
-                    // statement : "MATCH (n:Topic) RETURN n, labels(n) as l LIMIT {limit}"
                 }
             ],
-            // parameters: {attribute: "Topic", name: "IR"}
-            // parameters: {limit: 10}
+
         }
         console.log(data)
         fetch(url, 
@@ -226,19 +212,44 @@
             },
             body: JSON.stringify(data)
         },).then(response => response.json()).then(data => console.log(data));
-        // session.run('CREATE ($attribute : {name : $name})', {
-        //     nameParam: [name, attribute]
-        // })
 
-        // r.post({
-        //     uri: "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit",
-        //     AUTHORIZATION: "Basic bmVvNGo6Zmx5",
-        //     JSON: {
-        //         statements: "CREATE (${attribute} : {name : ${name}})"
-        //     }
-        // })
 
     }
+
+    function add_node(){
+        var src_attr = document.getElementById("add-node-name").value;
+        var src_value = document.getElementById("add-node-select");
+        src_value = src_value.options[src_value.selectedIndex].text;
+
+        var dest_attr = document.getElementById("add-node-name").value;
+        var dest_value = document.getElementById("add-node-select");
+        dest_value = dest_value.options[dest_value.selectedIndex].text;
+
+        var rel_attr = "cover"
+
+        find_node = {
+            "statements": [
+                {
+                    // "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
+                    "statement": "MATCH (a:`" + src_attr + "`), (b:`" + dest_attr +  "`) WHERE a.name='" + src_value + "' AND b.name='" + dest_value + "' CREATE (a)-[r:cover]->(b)"
+                }
+            ],
+        }
+        fetch(url, 
+        {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic bmVvNGo6Zmx5',
+                'Accept': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        },).then(response => response.json()).then(data => console.log(data));
+
+
+    }
+
+
 
     popoto.provider.node.Provider = {
         "Topic": {
