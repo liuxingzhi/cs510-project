@@ -203,7 +203,7 @@
                                     <option selected>cover</option>
                                 </select>
                             </div>
-                            <button id="add-rel-btn" class="btn btn-light custom-select-line-elements custom-btn">Submit</button>
+                            <button id="add-rel-btn" class="btn btn-light custom-select-line-elements custom-btn" onclick="add_relation()">Submit</button>
                         </section>
                     </section>
                 </div>
@@ -291,18 +291,18 @@
 
     }
 
-    function add_node(){
-        var src_attr = document.getElementById("add-node-name").value;
-        var src_value = document.getElementById("add-node-select");
+    function add_relation(){
+        var src_attr = document.getElementById("add-rel-src-name").value;
+        var src_value = document.getElementById("add-rel-src-select");
         src_value = src_value.options[src_value.selectedIndex].text;
 
-        var dest_attr = document.getElementById("add-node-name").value;
-        var dest_value = document.getElementById("add-node-select");
+        var dest_attr = document.getElementById("add-rel-dest-name").value;
+        var dest_value = document.getElementById("add-rel-dest-select");
         dest_value = dest_value.options[dest_value.selectedIndex].text;
 
         var rel_attr = "cover"
 
-        find_node = {
+        data = {
             "statements": [
                 {
                     // "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
@@ -310,6 +310,7 @@
                 }
             ],
         }
+        console.log(data)
         fetch(url, 
         {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
