@@ -292,13 +292,13 @@
     }
 
     function add_relation(){
-        var src_attr = document.getElementById("add-rel-src-name").value;
-        var src_value = document.getElementById("add-rel-src-select");
-        src_value = src_value.options[src_value.selectedIndex].text;
+        var src_value = document.getElementById("add-rel-src-name").value;
+        var src_attr = document.getElementById("add-rel-src-select");
+        src_attr = src_attr.options[src_attr.selectedIndex].text;
 
-        var dest_attr = document.getElementById("add-rel-dest-name").value;
-        var dest_value = document.getElementById("add-rel-dest-select");
-        dest_value = dest_value.options[dest_value.selectedIndex].text;
+        var dest_value = document.getElementById("add-rel-dest-name").value;
+        var dest_attr = document.getElementById("add-rel-dest-select");
+        dest_attr = dest_attr.options[dest_attr.selectedIndex].text;
 
         var rel_attr = "cover"
 
