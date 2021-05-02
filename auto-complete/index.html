@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Auto complete</title>
+    <link rel="stylesheet" href="../node_modules/popoto/dist/popoto.min.css">
+    <link rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="css/auto-complete.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+
+    <style>
+        #popoto-graph:fullscreen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #popoto-graph:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+        }
+
+        .collapsible-header:focus {
+            outline: 0;
+        }
+
+        .ppt-taxo__span-icon.Person:before {
+            content: "\f2be";
+            color: #2aa1d3;
+        }
+
+        .ppt-taxo__span-icon.Movie:before {
+            content: "\e914";
+            color: #8bb71a;
+        }
+
+    </style>
+    <script>
+        window.onload = function () {
+            // $('#popoto-taxonomy').append()
+        }
+    </script>
+</head>
+<body style="background-color: #2e3138;">
+
+<div class="navbar-fixed">
+    <nav style="background-color: #444951;">
+        <div class="nav-wrapper">
+            <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863;"
+                  onsubmit="event.preventDefault(); return false;">
+                <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search"><i
+                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div class="">
+    <ul id="collapsible-components" class="collapsible popout">
+        <!-- ======================================================================================================= -->
+        <!-- GRAPH QUERY-->
+        <!-- ======================================================================================================= -->
+        <li id="p-collapsible-popoto" class="active">
+            <div class="collapsible-header white-text" style="background-color: #525863; border-bottom: 0;"><i
+                    class="ppt-icon ppt-icon-logo" style="color:#8bb71a;"></i> Graph
+                Query
+            </div>
+            <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0;">
+                <div id="popoto-taxonomy" class="ppt-taxo-nav" style="color: white; width: 280px">
+                    <section add-collection-form>
+                        <p>Add Relation</p>
+                        <div>
+                            <p style="display: inline-block; width: 40%">Source:</p>
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width: 100px; display: inline-block">
+                                <option value="1">Topic</option>
+                                <option value="2">Model</option>
+                                <option value="3">Algorithm</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p style="display: inline-block; width: 40%">Name:</p>
+                            <input class="form-check-input" style="display: inline-block;">
+                        </div>
+                        <button class="btn btn-light">Submit</button>
+                    </section>
+                    <br>
+                    <section add-relation-form>
+                        <p>Add Relation</p>
+                        <div>
+                            <p style="display: inline-block; width: 40%">Source:</p>
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width: 100px; display: inline-block">
+                                <option value="1">Topic</option>
+                                <option value="2">Model</option>
+                                <option value="3">Algorithm</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p style="display: inline-block; width: 40%">Destination:</p>
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width: 100px; display: inline-block">
+                                <option value="1">Topic</option>
+                                <option value="2">Model</option>
+                                <option value="3">Algorithm</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p style="display: inline-block; width: 40%">Relation:</p>
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width: 100px; display: inline-block">
+                                <option selected>cover</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-light">Submit</button>
+                    </section>
+                </div>
+                <div id="popoto-graph" class="ppt-div-graph">
+                </div>
+            </div>
+        </li>
+        <!-- ======================================================================================================= -->
+        <!-- QUERY -->
+        <!-- ======================================================================================================= -->
+        <li id="p-collapsible-query" class="active">
+            <div class="collapsible-header white-text" style="background-color: #525863;border-bottom: 0;"><i
+                    class="ppt-icon ppt-icon-wrench" style="color:#8bb71a;"></i>Query
+            </div>
+            <div class="collapsible-body no-padding" style="border-bottom: 0;">
+                <div id="popoto-cypher" class="ppt-container-cypher center-align">
+                </div>
+            </div>
+        </li>
+        <!-- ======================================================================================================= -->
+        <!-- RESULTS -->
+        <!-- ======================================================================================================= -->
+        <li id="p-collapsible-results" class="active">
+            <div class="collapsible-header white-text" style="background-color: #525863;border-bottom: 0;"><i
+                    class="ppt-icon ppt-icon-sort-alpha-asc" style="color:#8bb71a;"></i>Results&nbsp;
+                <span class="" id="result-total-count">0</span>
+            </div>
+            <div class="collapsible-body no-padding" style="border-bottom: 0;">
+                <div class="row">
+                    <div id="popoto-results" class="col s12 cards-container">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</div>
+
+<script src="../node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
+<script src="../node_modules/d3/dist/d3.min.js" charset="utf-8"></script>
+<script src="../node_modules/popoto/dist/popoto.min.js" charset="utf-8"></script>
+<script src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src="js/auto-complete.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+    // Demo Neo4j database settings hosted on GrapheneDb
+    popoto.rest.CYPHER_URL = "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+    popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:fly");
+
+    popoto.graph.WHEEL_ZOOM_ENABLED = false;
+
+    popoto.provider.node.Provider = {
+        "Topic": {
+            "returnAttributes": ["name"],
+            "constraintAttribute": "name",
+        },
+        "Model": {
+            "returnAttributes": ["name"],
+            "constraintAttribute": "name",
+        },
+        "Algorithm": {
+            "returnAttributes": ["name"],
+            "constraintAttribute": "name",
+        }
+    };
+
+    popoto.result.onTotalResultCount(function (count) {
+        document.getElementById("result-total-count").innerHTML = "(" + count + ")";
+    });
+
+
+    function initCollapsible() {
+
+        var element = document.querySelector('#collapsible-components');
+        var collapsible = new M.Collapsible(element,
+            {
+                accordion: false,
+                onOpenEnd: function (el) {
+                    var id = el.id;
+                    if (id === "p-collapsible-popoto") {
+                        if (popoto.graph.getRootNode() !== undefined) {
+                            popoto.graph.getRootNode().px = $('#p-collapsible-popoto').width() / 2;
+                            popoto.graph.getRootNode().py = 300;
+                            popoto.updateGraph();
+                        }
+                    }
+                },
+                onCloseEnd: function (el) {
+                }
+            });
+    }
+
+    initCollapsible();
+
+    popoto.start("Topic");
+
+</script>
+</body>
+</html>
