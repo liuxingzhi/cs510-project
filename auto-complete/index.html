@@ -49,10 +49,71 @@
             color: #8bb71a;
         }
 
+        #custom-add-drop-section.div{
+            /*height: 5px !important;*/
+        }
+
+        .custom-select-line-elements {
+            /*height: 1em !important;*/
+            padding-bottom: 0;
+            padding-top: 0;
+            height: 35px;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .custom-input{
+            width: 100px !important;
+            color: #cccccc;
+        }
+        .custom-select-line-elements{
+            height: 30px !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .custom-select-line-wrapper{
+            height: 35px !important;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-input-line-wrapper{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        #add-relation-form #add-node-form{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .custom-action-section:first-child{
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        /*.custom-action-section{*/
+        /*    margin-bottom: 40px;*/
+        /*}*/
+        .custom-btn{
+            padding-top: 1px;
+            padding-tom:  1px;
+            padding-left: 3px;
+            padding-right: 3px;
+            align-content: center;
+            height: 30px;
+        }
+
+        #add-relation-form .custom-btn{
+            margin-top: 10px !important;
+        }
     </style>
     <script>
         window.onload = function () {
-            // $('#popoto-taxonomy').append()
+            var custom_content = $('#custom-add-drop-section')
+            $('#popoto-taxonomy').append(custom_content)
         }
     </script>
 </head>
@@ -85,52 +146,65 @@
             </div>
             <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0;">
                 <div id="popoto-taxonomy" class="ppt-taxo-nav" style="color: white; width: 280px">
-                    <section add-node-form>
-                        <p>Add Node</p>
-                        <div>
-                            <p style="display: inline-block; width: 40%">Source:</p>
-                            <select id="add-node-select" class="form-select" aria-label="Default select example"
-                                    style="width: 100px; display: inline-block">
-                                <option value="1">Topic</option>
-                                <option value="2">Model</option>
-                                <option value="3">Algorithm</option>
-                            </select>
-                        </div>
-                        <div>
-                            <p style="display: inline-block; width: 40%">Name:</p>
-                            <input id="add-node-name" class="form-check-input" style="display: inline-block;">
-                        </div>
-                        <button id="add-node-btn" class="btn btn-light" onclick="add_node()">Submit</button>
-                    </section>
-                    <br>
-                    <section add-relation-form>
-                        <p>Add Relation</p>
-                        <div>
-                            <p style="display: inline-block; width: 40%">Source:</p>
-                            <select id="add-rel-src-select" class="form-select" aria-label="Default select example"
-                                    style="width: 100px; display: inline-block">
-                                <option value="1">Topic</option>
-                                <option value="2">Model</option>
-                                <option value="3">Algorithm</option>
-                            </select>
-                        </div>
-                        <div>
-                            <p style="display: inline-block; width: 40%">Destination:</p>
-                            <select id="add-rel-dest-select" class="form-select" aria-label="Default select example"
-                                    style="width: 100px; display: inline-block">
-                                <option value="1">Topic</option>
-                                <option value="2">Model</option>
-                                <option value="3">Algorithm</option>
-                            </select>
-                        </div>
-                        <div>
-                            <p style="display: inline-block; width: 40%">Relation:</p>
-                            <select id="add-rel-rel-select" class="form-select" aria-label="Default select example"
-                                    style="width: 100px; display: inline-block">
-                                <option selected>cover</option>
-                            </select>
-                        </div>
-                        <button id="add-rel-btn" class="btn btn-light">Submit</button>
+                    <section id="custom-add-drop-section">
+                        <section id="add-node-form" class="custom-action-section">
+                            <b>Add Node</b>
+                            <div class="custom-select-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Source:</p>
+                                <select id="add-node-select" class="form-select custom-select-line-elements"
+                                        aria-label="Default select example"
+                                        style="width: 100px; display: inline-block">
+                                    <option value="1">Topic</option>
+                                    <option value="2">Model</option>
+                                    <option value="3">Algorithm</option>
+                                </select>
+                            </div>
+                            <div class="custom-input-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
+                                <input id="add-node-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                            </div>
+                            <button id="add-node-btn custom-select-line-elements" class="btn btn-light custom-btn" onclick="add_node()">Submit</button>
+                        </section>
+                        <section id="add-relation-form"  class="custom-action-section">
+                            <b>Add Relation</b>
+                            <div class="custom-select-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Source:</p>
+                                <select id="add-rel-src-select" class="form-select custom-select-line-elements"
+                                        aria-label="Default select example"
+                                        style="width: 100px; display: inline-block">
+                                    <option value="1">Topic</option>
+                                    <option value="2">Model</option>
+                                    <option value="3">Algorithm</option>
+                                </select>
+                            </div>
+                            <div class="custom-input-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
+                                <input id="add-node-src-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                            </div>
+                            <div class="custom-select-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Destination:</p>
+                                <select id="add-rel-dest-select" class="form-select custom-select-line-elements"
+                                        aria-label="Default select example"
+                                        style="width: 100px; display: inline-block">
+                                    <option value="1">Topic</option>
+                                    <option value="2">Model</option>
+                                    <option value="3">Algorithm</option>
+                                </select>
+                            </div>
+                            <div class="custom-input-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
+                                <input id="add-node-dest-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                            </div>
+                            <div class="custom-select-line-wrapper">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Relation:</p>
+                                <select id="add-rel-rel-select" class="form-select custom-select-line-elements"
+                                        aria-label="Default select example"
+                                        style="width: 100px; display: inline-block">
+                                    <option selected>cover</option>
+                                </select>
+                            </div>
+                            <button id="add-rel-btn" class="btn btn-light custom-select-line-elements custom-btn">Submit</button>
+                        </section>
                     </section>
                 </div>
                 <div id="popoto-graph" class="ppt-div-graph">
@@ -186,12 +260,12 @@
 
 
     // const Http = new XMLHttpRequest();
-    const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+    const url = "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
     // Http.setRequestHeader("Authorization", "Basic " + btoa("neo4j:fly"));
     // var neo4j = require('neo4j-driver');
 
 
-    function add_node(){
+    function add_node() {
         var name = document.getElementById("add-node-name").value;
         e = document.getElementById("add-node-select")
         var attribute = e.options[e.selectedIndex].text;
@@ -203,7 +277,7 @@
         //         statement: 'CREATE (${attribute} : {name : ${name}})'
         //     }
         // })
-        
+
 
         data = {
             "statements": [
@@ -216,16 +290,16 @@
             // parameters: {limit: 10}
         }
         console.log(data)
-        fetch(url, 
-        {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic bmVvNGo6Zmx5',
-                'Accept': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(data)
-        },).then(response => response.json()).then(data => console.log(data));
+        fetch(url,
+            {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic bmVvNGo6Zmx5',
+                    'Accept': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(data)
+            },).then(response => response.json()).then(data => console.log(data));
         // session.run('CREATE ($attribute : {name : $name})', {
         //     nameParam: [name, attribute]
         // })
