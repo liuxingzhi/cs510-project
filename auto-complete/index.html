@@ -121,8 +121,8 @@
 
 <div class="navbar-fixed">
     <nav style="background-color: #444951;">
-        <div class="nav-wrapper">
-            <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863;"
+        <div class="nav-wrapper" style="display:flex; justify-content: space-around;">
+            <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field">
                     <input id="search" type="search" required>
@@ -130,6 +130,7 @@
                             class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
                 </div>
             </form>
+            <button type='button'>Login</button>
         </div>
     </nav>
 </div>
