@@ -1,3 +1,16 @@
+## Environment setup
+In backend directory, type following command
+```bash
+npm install
+```
+
+## Run Server
+```bash
+node server.js
+```
+The server will listen on localhost:7777
+
+
 ## Server api list
 - /auth
     - /login
@@ -17,8 +30,25 @@
     - /delete/all
         - DELETE
             - delete all users
-
-## Mongo Collection Schema
+- /history
+    - /
+        - Get
+            - Return all user history
+        - Post
+            - require username and search_query in the request body
+            - example http request
+            ```http request
+            POST http://localhost:7777/history/
+            Content-Type: application/json
+            
+            {
+            "username": "abel",
+            "search_query": "HMM model"
+            }```
+        - /delete/all
+            - delete all search history
+          
+## Database Collection Schema
 ```javascript
 const UserSchema = mongoose.Schema({
     username: {
