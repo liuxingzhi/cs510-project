@@ -97,3 +97,7 @@ const SearchHistorySchema = mongoose.Schema({
     }
 })
 ```
+
+## Testing
+see examples in testUser.http
+
