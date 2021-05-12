@@ -44,7 +44,8 @@ The server will listen on localhost:7777
             {
             "username": "abel",
             "search_query": "HMM model"
-            }```
+            }
+          ```
         - /delete/all
             - delete all search history
           
