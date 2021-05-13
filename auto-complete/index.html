@@ -130,7 +130,12 @@
                             class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
                 </div>
             </form>
-            <button type='button'>Login</button>
+            <p>Username</p>
+            <input type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
+            <p>Password</p>
+            <input type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
+            <!-- <button type='button' onclick="login()">Login</button> -->
+            <button type='button' onclick="login()">Login</button>
         </div>
     </nav>
 </div>
@@ -262,6 +267,9 @@
 
     const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
 
+    function login() {
+        console.log("login clicked");
+    }
 
     function add_node() {
         var name = document.getElementById("add-node-name").value;
