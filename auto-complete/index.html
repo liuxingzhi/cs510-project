@@ -125,9 +125,11 @@
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field">
-                    <input id="search" type="search" required>
+                    <input id="content-search" type="search">
+                    <button onclick="search()">Search</button>
+                    <!-- <input id="search" type="search" required>
                     <label class="label-icon" for="search"><i
-                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
+                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;" onclick="login()"></i></label> -->
                 </div>
             </form>
             <p>Username</p>
@@ -135,7 +137,7 @@
             <p>Password</p>
             <input type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
             <!-- <button type='button' onclick="login()">Login</button> -->
-            <button type='button' onclick="login()">Login</button>
+            <button type='button' onclick="search()">Login</button>
         </div>
     </nav>
 </div>
@@ -269,6 +271,27 @@
 
     function login() {
         console.log("login clicked");
+    }
+
+    function search() {
+        console.log("search clicked");
+        var search_content = document.getElementById("content-search").value;
+        var url = "http://timan102.cs.illinois.edu/explanation//search_slides";
+        data = {
+            "route": "/explanation//slide/cs-410/0",
+            "searchString": "theory",
+        };
+        fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin': 'http://timan102.cs.illinois.edu',
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic bmVvNGo6Zmx5',
+                'Accept': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(data),
+        }).then(response => response.json()).then(console.log("log data"));
     }
 
     function add_node() {
