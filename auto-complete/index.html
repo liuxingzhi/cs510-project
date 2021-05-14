@@ -259,37 +259,67 @@
 
     popoto.graph.WHEEL_ZOOM_ENABLED = false;
 
-
+    const server_url = "http://localhost:7777/auth/login"
     const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
 
 
     function add_node() {
-        var name = document.getElementById("add-node-name").value;
-        e = document.getElementById("add-node-select")
-        var attribute = e.options[e.selectedIndex].text;
-
-
-        data = {
-            "statements": [
-                {
-                    "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
-                }
-            ],
-
+        login_check = {
+            "username": "abel",
+            "password": "abel"
         }
-        console.log(data)
-
-        fetch(url, 
+        console.log("console working?")
+        fetch(server_url, 
         {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic bmVvNGo6Zmx5',
-                'Accept': 'application/json;charset=UTF-8'
+                // 'Accept': '*/*',
+                // "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NTEzOTMyLCJleHAiOjE2MDU1MTc1MzJ9.D9MqxVO3lyrD4ux4H6rRq6KvUYNE-tG11simmza1EcY"
             },
-            body: JSON.stringify(data)
-        },).then(response => response.json()).then(data => console.log(data));
+            body: JSON.stringify(login_check)
+        }
+        ).catch(err => console.log(err)
+        ).then(response => {
+            console.log(response)
+            console.log(response.text)
+            response.json()
+            return response
+        }
+        ).then(data => {
+            console.log(data)
+            if (data.status == 400 || data.status==401 || data.status==500){
+                console.log("login failed; stop adding node")
+                return;
+            }else{
+                console.log("fuck")
+                var name = document.getElementById("add-node-name").value;
+                e = document.getElementById("add-node-select")
+                var attribute = e.options[e.selectedIndex].text;
 
+
+                data = {
+                    "statements": [
+                        {
+                            "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
+                        }
+                    ],
+
+                }
+                console.log(data)
+
+                fetch(url, 
+                {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Basic bmVvNGo6Zmx5',
+                        'Accept': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify(data)
+                },).then(response => response.json()).then(data => console.log(data));
+                    }
+                });
     }
 
     function add_relation(){
