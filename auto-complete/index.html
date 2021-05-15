@@ -124,12 +124,12 @@
         <div class="nav-wrapper" style="display:flex; justify-content: space-around;">
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
-                <div class="input-field">
+                <div class="input-field" style="display: flex;">
                     <input id="content-search" type="search">
                     <button onclick="search()">Search</button>
                     <!-- <input id="search" type="search" required>
                     <label class="label-icon" for="search"><i
-                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;" onclick="login()"></i></label> -->
+                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;" onclick="login()"></i></label>-->
                 </div>
             </form>
             <p>Username</p>
@@ -137,7 +137,7 @@
             <p>Password</p>
             <input id="password" type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
             <!-- <button type='button' onclick="login()">Login</button> -->
-            <button type='button' onclick="search()">Login</button>
+            <button type='button' onclick="login()">Login</button>
         </div>
     </nav>
 </div>
@@ -276,22 +276,28 @@
     function search() {
         console.log("search clicked");
         var search_content = document.getElementById("content-search").value;
-        var url = "http://timan102.cs.illinois.edu/explanation//search_slides";
+        var url = "http://localhost:7777/api/search";
         data = {
-            "route": "/explanation//slide/cs-410/0",
-            "searchString": "theory",
+            "keyword": search_content
         };
         fetch(url, {
             method: 'POST',
-            mode: 'cors',
             headers: {
-                'Access-Control-Allow-Origin': 'http://timan102.cs.illinois.edu',
                 'Content-Type': 'application/json',
                 'Authorization': 'Basic bmVvNGo6Zmx5',
                 'Accept': 'application/json;charset=UTF-8'
             },
             body: JSON.stringify(data),
-        }).then(response => response.json()).then(console.log("log data"));
+        }).then(res => {
+            // res.json();
+            return res.text();
+        }).then(addr => {
+            console.log(addr)
+            if (addr === "") {
+                return
+            }
+            window.open(addr, "myWindow")
+        });
     }
 
     function add_node() {
