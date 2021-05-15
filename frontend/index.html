@@ -121,14 +121,8 @@
             margin-right: 10px !important;
         }
 
-        #login-button, #logout-button, #register-button {
-            height: 34px !important;
-            margin-top: 15px !important;
-            margin-left: 10px !important;
-            margin-right: 10px !important;
-        }
 
-        #login-button, #logout-button, #register-button {
+        #login-button, #logout-button, #register-button, #query_search_btn {
             height: 34px !important;
             margin-top: 15px !important;
             margin-left: 10px !important;
@@ -176,7 +170,7 @@
             /*display: none;*/
         }
 
-        #popup-container.open {
+        #popup-container {
             display: block;
         }
 
@@ -202,20 +196,10 @@
             border: 0px;
         }
 
-        .modal-content .logorow {
+        .modal-content {
             text-align: center;
         }
 
-        .close {
-            margin-right: 10px;
-            margin-top: 5px;
-            color: #fff;
-            opacity: .8;
-        }
-
-        .close:hover {
-            color: #efefef;
-        }
 
         #close-pop-up-btn {
             padding: 0 !important;
@@ -225,7 +209,8 @@
             height: 20px !important;
             font-size: 2.5em;
         }
-        .register-input-field{
+
+        .register-input-field {
             color: #f0f0f0;
         }
     </style>
@@ -243,7 +228,7 @@
     <nav style="background-color: #444951;">
         <div class="nav-wrapper" style="display:flex; justify-content: space-around;">
             <button type='button' id="register-button" class="btn btn-light">Signup</button>
-            <section id="register-form" class="hide-me">
+            <section id="signup-form" class="hide-me">
                 <section id="popup-container">
                     <div class="modal-content">
                         <div style="text-align: right; height: 20px">
@@ -282,12 +267,12 @@
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field" style="display: flex;">
-                    <!--                    <input id="content-search" type="search">-->
-                    <!--                    <button onclick="search()">Search</button>-->
-                    <input id="search" type="search" required>
-                    <label class="label-icon" for="search">
-                        <i class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i>
-                    </label>
+                    <input id="content-search" type="search">
+                    <button onclick="search()" id="query_search_btn" class="btn btn-info">Search</button>
+<!--                    <input id="search" type="search" required>-->
+<!--                    <label class="label-icon" for="search">-->
+<!--                        <i class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i>-->
+<!--                    </label>-->
                 </div>
             </form>
             <p id="username_p">Username</p>
@@ -446,21 +431,21 @@
     const server_signup_url = "http://localhost:7777/auth/signup"
     const url = "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
 
-    $('#register-button').on('click', function() {
-        $('#register-form').removeClass("hide-me")
+    $('#register-button').on('click', function () {
+        $('#signup-form').removeClass("hide-me")
     })
 
-    $('#close-pop-up-btn').on('click', function() {
-        $('#register-form').addClass("hide-me")
+    $('#close-pop-up-btn').on('click', function () {
+        $('#signup-form').addClass("hide-me")
     })
 
-    $('#register-submit-btn').on('click', function() {
+    $('#register-submit-btn').on('click', function () {
         let username = $('#register-username').val()
         let email = $('#register-email').val()
         let password = $('#register-password').val()
         if (username === "" || email === "" || password === "") {
             return;
-        }else{
+        } else {
             console.log(`register new users, username: ${username}, email: ${email}, password: ${password}`)
             fetch(server_signup_url,
                 {
@@ -472,7 +457,7 @@
                     },
                     body: JSON.stringify({
                         "username": username,
-                        "email":email,
+                        "email": email,
                         "password": password
                     })
                 }
@@ -485,7 +470,7 @@
                 }
             ).then(data => {
                 console.log(data)
-                $('#register-form').addClass("hide-me")
+                $('#signup-form').addClass("hide-me")
             })
         }
     })
