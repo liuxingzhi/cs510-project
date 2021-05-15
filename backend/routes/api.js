@@ -35,7 +35,7 @@ router.post('/search', async function (req, res) {
     const axios = require('axios')
 
     axios
-        .post('http://timan102.cs.illinois.edu/explanation//slide/cs-410/0', {
+        .post('http://timan102.cs.illinois.edu//explanation/search_slides', {
             searchString: "theory",
             route: "/explanation//slide/cs-410/0",
         })
@@ -80,7 +80,7 @@ router.post('/search', async function (req, res) {
 
     res.status(200).send(
         JSON.stringify({
-            result: response,
+            result: "",
         })
     )
 });
