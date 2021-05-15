@@ -49,7 +49,7 @@
             color: #8bb71a;
         }
 
-        #custom-add-drop-section.div{
+        #custom-add-drop-section.div {
             /*height: 5px !important;*/
         }
 
@@ -62,34 +62,36 @@
             margin-top: 0;
         }
 
-        .custom-input{
+        .custom-input {
             width: 100px !important;
             color: #cccccc;
         }
-        .custom-select-line-elements{
+
+        .custom-select-line-elements {
             height: 30px !important;
             padding-top: 0;
             padding-bottom: 0;
             margin-top: 0;
             margin-bottom: 0;
         }
-        .custom-select-line-wrapper{
+
+        .custom-select-line-wrapper {
             height: 35px !important;
             padding: 0;
             margin: 0;
         }
 
-        .custom-input-line-wrapper{
+        .custom-input-line-wrapper {
             margin-top: 5px;
             margin-bottom: 5px;
         }
 
-        #add-relation-form #add-node-form{
+        #add-relation-form #add-node-form {
             margin-top: 0;
             margin-bottom: 0;
         }
 
-        .custom-action-section:first-child{
+        .custom-action-section:first-child {
             margin-top: 40px;
             margin-bottom: 40px;
         }
@@ -97,22 +99,54 @@
         /*.custom-action-section{*/
         /*    margin-bottom: 40px;*/
         /*}*/
-        .custom-btn{
+        .custom-btn {
             padding-top: 1px;
-            padding-tom:  1px;
+            padding-tom: 1px;
             padding-left: 3px;
             padding-right: 3px;
             align-content: center;
             height: 30px;
         }
 
-        #add-relation-form .custom-btn{
+        #add-relation-form .custom-btn {
             margin-top: 10px !important;
         }
+
+        .login-element {
+            height: 30px !important;
+            width: 50px !important;
+            padding: 5px !important;
+            margin-top: 10px !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+        }
+
+        #login-button, #logout-button, #register-button {
+            height: 34px !important;
+            margin-top: 15px !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+        }
+        #login-button, #logout-button, #register-button {
+            height: 34px !important;
+            margin-top: 15px !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+        }
+
+        #username, #password {
+            color: #ffeaff;
+        }
+
+        .hide-me {
+            display: none;
+        }
+
     </style>
     <script>
+        var logged_in = false;
         window.onload = function () {
-            var custom_content = $('#custom-add-drop-section')
+            let custom_content = $('#custom-add-drop-section')
             $('#popoto-taxonomy').append(custom_content)
         }
     </script>
@@ -122,22 +156,25 @@
 <div class="navbar-fixed">
     <nav style="background-color: #444951;">
         <div class="nav-wrapper" style="display:flex; justify-content: space-around;">
+<!--            <button type='button' onclick="register()" id="register-button" class="btn btn-light">Register</button>-->
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field" style="display: flex;">
-                    <input id="content-search" type="search">
-                    <button onclick="search()">Search</button>
-                    <!-- <input id="search" type="search" required>
-                    <label class="label-icon" for="search"><i
-                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;" onclick="login()"></i></label>-->
+                    <!--                    <input id="content-search" type="search">-->
+                    <!--                    <button onclick="search()">Search</button>-->
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search">
+                        <i class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i>
+                    </label>
                 </div>
             </form>
             <p id="username_p">Username</p>
-            <input id="username" type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
+            <input id="username" type="text" class="login-element form-check-input">
             <p id="password_p">Password</p>
-            <input id="password" type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
+            <input id="password" type="password" class="login-element form-check-input">
             <!-- <button type='button' onclick="login()">Login</button> -->
-            <button type='button' onclick="login()" id="loginbutton">Login</button>
+            <button type='button' onclick="login()" id="login-button" class="btn btn-light">Login</button>
+            <button type='button' onclick="logout()" id="logout-button" class="btn btn-light hide-me">Log Out</button>
         </div>
     </nav>
 </div>
@@ -154,11 +191,12 @@
             </div>
             <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0">
                 <div id="popoto-taxonomy" class="ppt-taxo-nav" style="color: white; width: 280px">
-                    <section id="custom-add-drop-section" style="display: none;">
+                    <section id="custom-add-drop-section" class="hide-me">
                         <section id="add-node-form" class="custom-action-section">
                             <b>Add Node</b>
                             <div class="custom-select-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Source:</p>
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Source:</p>
                                 <select id="add-node-select" class="form-select custom-select-line-elements"
                                         aria-label="Default select example"
                                         style="width: 100px; display: inline-block">
@@ -168,15 +206,21 @@
                                 </select>
                             </div>
                             <div class="custom-input-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
-                                <input id="add-node-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Name:</p>
+                                <input id="add-node-name"
+                                       class="form-check-input custom-select-line-elements custom-input"
+                                       style="display: inline-block;">
                             </div>
-                            <button id="add-node-btn custom-select-line-elements" class="btn btn-light custom-btn" onclick="add_node()">Submit</button>
+                            <button id="add-node-btn custom-select-line-elements" class="btn btn-light custom-btn"
+                                    onclick="add_node()">Submit
+                            </button>
                         </section>
-                        <section id="add-relation-form"  class="custom-action-section">
+                        <section id="add-relation-form" class="custom-action-section">
                             <b>Add Relation</b>
                             <div class="custom-select-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Source:</p>
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Source:</p>
                                 <select id="add-rel-src-select" class="form-select custom-select-line-elements"
                                         aria-label="Default select example"
                                         style="width: 100px; display: inline-block">
@@ -186,11 +230,15 @@
                                 </select>
                             </div>
                             <div class="custom-input-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
-                                <input id="add-rel-src-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Name:</p>
+                                <input id="add-rel-src-name"
+                                       class="form-check-input custom-select-line-elements custom-input"
+                                       style="display: inline-block;">
                             </div>
                             <div class="custom-select-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Destination:</p>
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Destination:</p>
                                 <select id="add-rel-dest-select" class="form-select custom-select-line-elements"
                                         aria-label="Default select example"
                                         style="width: 100px; display: inline-block">
@@ -200,18 +248,24 @@
                                 </select>
                             </div>
                             <div class="custom-input-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Name:</p>
-                                <input id="add-rel-dest-name" class="form-check-input custom-select-line-elements custom-input" style="display: inline-block;">
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Name:</p>
+                                <input id="add-rel-dest-name"
+                                       class="form-check-input custom-select-line-elements custom-input"
+                                       style="display: inline-block;">
                             </div>
                             <div class="custom-select-line-wrapper">
-                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">Relation:</p>
+                                <p class="custom-select-line-elements" style="display: inline-block; width: 40%">
+                                    Relation:</p>
                                 <select id="add-rel-rel-select" class="form-select custom-select-line-elements"
                                         aria-label="Default select example"
                                         style="width: 100px; display: inline-block">
                                     <option selected>cover</option>
                                 </select>
                             </div>
-                            <button id="add-rel-btn" class="btn btn-light custom-select-line-elements custom-btn" onclick="add_relation()">Submit</button>
+                            <button id="add-rel-btn" class="btn btn-light custom-select-line-elements custom-btn"
+                                    onclick="add_relation()">Submit
+                            </button>
                         </section>
                     </section>
                 </div>
@@ -267,57 +321,71 @@
     popoto.graph.WHEEL_ZOOM_ENABLED = false;
 
     const server_url = "http://localhost:7777/auth/login"
-    const url="https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+    const url = "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+
+    function logout() {
+        logged_in = false;
+        $("#login-button").removeClass("hide-me")
+        $("#username").removeClass("hide-me")
+        $("#password").removeClass("hide-me")
+        $("#username_p").removeClass("hide-me")
+        $("#password_p").removeClass("hide-me")
+        $("#custom-add-drop-section").addClass("hide-me")
+
+        $("#logout-button").addClass("hide-me")
+    }
 
     function login() {
         console.log("login clicked");
         user = document.getElementById("username").value
-        console.log("username: "+user)
-        if (user == ""){
+        console.log("username: " + user)
+        if (user == "") {
             return;
         }
         pswd = document.getElementById("password").value
-        if (pswd == ""){
+        if (pswd == "") {
             return;
         }
-        console.log("pswd: "+pswd)
+
+        console.log("pswd: " + pswd)
         login_check = {
             "username": user,
             "password": pswd
         }
+
         console.log(login_check)
-        fetch(server_url, 
-        {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Accept': '*/*',
-                // "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NTEzOTMyLCJleHAiOjE2MDU1MTc1MzJ9.D9MqxVO3lyrD4ux4H6rRq6KvUYNE-tG11simmza1EcY"
-            },
-            body: JSON.stringify(login_check)
-        }
+        fetch(server_url,
+            {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Accept': '*/*',
+                    // "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NTEzOTMyLCJleHAiOjE2MDU1MTc1MzJ9.D9MqxVO3lyrD4ux4H6rRq6KvUYNE-tG11simmza1EcY"
+                },
+                body: JSON.stringify(login_check)
+            }
         ).catch(err => console.log(err)
         ).then(response => {
-            console.log(response)
-            console.log(response.text)
-            response.json()
-            return response
-        }
+                console.log(response)
+                console.log(response.text)
+                response.json()
+                return response
+            }
         ).then(data => {
             console.log(data)
-            if (data.status == 400 || data.status==401 || data.status==500){
+            if (data.status == 400 || data.status == 401 || data.status == 500) {
                 console.log("login failed; stop adding node")
                 return;
-            }
-            else{
-                editor_panel = document.getElementById("custom-add-drop-section")
-                editor_panel.style.display = 'block'
-                login_button = document.getElementById("loginbutton")
-                login_button.innerHTML = "Logged in"
-                document.getElementById("username").style.display = 'none'
-                document.getElementById("password").style.display = 'none'
-                document.getElementById("username_p").style.display = 'none'
-                document.getElementById("password_p").style.display = 'none'
+            } else {
+                logged_in = true;
+                $("#logout-button").removeClass("hide-me")
+                $("#custom-add-drop-section").removeClass("hide-me")
+
+                $("#login-button").addClass("hide-me")
+                $("#username").addClass("hide-me")
+                $("#password").addClass("hide-me")
+                $("#username_p").addClass("hide-me")
+                $("#password_p").addClass("hide-me")
             }
         })
     }
@@ -367,21 +435,21 @@
         }
         console.log(data)
 
-        fetch(url, 
-        {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic bmVvNGo6Zmx5',
-                'Accept': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(data)
-        },)
-        .then(response => response.json()).then(data => console.log(data));
+        fetch(url,
+            {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic bmVvNGo6Zmx5',
+                    'Accept': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(data)
+            },)
+            .then(response => response.json()).then(data => console.log(data));
 
     }
 
-    function add_relation(){
+    function add_relation() {
 
         var src_value = document.getElementById("add-rel-src-name").value;
         var src_attr = document.getElementById("add-rel-src-select");
@@ -397,24 +465,23 @@
             "statements": [
                 {
                     // "statement": 'CREATE (n: `' + attribute + '` {name: \'' + name + '\'})'
-                    "statement": "MATCH (a:`" + src_attr + "`), (b:`" + dest_attr +  "`) WHERE a.name='" + src_value + "' AND b.name='" + dest_value + "' CREATE (a)-[r:cover]->(b)"
+                    "statement": "MATCH (a:`" + src_attr + "`), (b:`" + dest_attr + "`) WHERE a.name='" + src_value + "' AND b.name='" + dest_value + "' CREATE (a)-[r:cover]->(b)"
                 }
             ],
         }
         console.log(data)
-        fetch(url, 
-        {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic bmVvNGo6Zmx5',
-                'Accept': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(data)
-        },).then(response => response.json()).then(data => console.log(data));
+        fetch(url,
+            {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic bmVvNGo6Zmx5',
+                    'Accept': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(data)
+            },).then(response => response.json()).then(data => console.log(data));
 
     }
-
 
 
     popoto.provider.node.Provider = {
