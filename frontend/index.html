@@ -127,11 +127,33 @@
             margin-left: 10px !important;
             margin-right: 10px !important;
         }
+
         #login-button, #logout-button, #register-button {
             height: 34px !important;
             margin-top: 15px !important;
             margin-left: 10px !important;
             margin-right: 10px !important;
+        }
+
+        #register-form {
+            z-index: 999999;
+        }
+
+        .register-form-input, .register-form-text {
+            height: 20px !important;
+            display: block;
+        }
+
+        .register-form-text {
+            margin-bottom: 30px !important;
+        }
+
+        #register-form button {
+            text-align: center;
+        }
+
+        #register-form button:first-child {
+            margin-right: 20px;
         }
 
         #username, #password {
@@ -142,6 +164,70 @@
             display: none;
         }
 
+        #popup-container {
+            position: fixed;
+            z-index: 9990;
+            margin: 0 auto;
+            top: 10%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 990px;
+            /*display: none;*/
+        }
+
+        #popup-container.open {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: rgba(38, 38, 40, 0.92);
+            color: #fff;
+            padding: 20px 100px;
+        }
+
+        .modal-content input {
+            height: 57px;
+            border-radius: 0px;
+        }
+
+        .modal-content .btn-primary {
+            width: 175px;
+            background-color: #ef9919;
+            border: 0px;
+        }
+
+        .modal-content .btn-primary:hover {
+            background-color: #0073b7;
+            border: 0px;
+        }
+
+        .modal-content .logorow {
+            text-align: center;
+        }
+
+        .close {
+            margin-right: 10px;
+            margin-top: 5px;
+            color: #fff;
+            opacity: .8;
+        }
+
+        .close:hover {
+            color: #efefef;
+        }
+
+        #close-pop-up-btn {
+            padding: 0 !important;
+            margin: 0 !important;
+            text-align: center !important;
+            width: 20px !important;
+            height: 20px !important;
+            font-size: 2.5em;
+        }
+        .register-input-field{
+            color: #f0f0f0;
+        }
     </style>
     <script>
         var logged_in = false;
@@ -156,7 +242,43 @@
 <div class="navbar-fixed">
     <nav style="background-color: #444951;">
         <div class="nav-wrapper" style="display:flex; justify-content: space-around;">
-<!--            <button type='button' onclick="register()" id="register-button" class="btn btn-light">Register</button>-->
+            <button type='button' id="register-button" class="btn btn-light">Register</button>
+            <section id="register-form" class="hide-me">
+                <section id="popup-container">
+                    <div class="modal-content">
+                        <div style="text-align: right; height: 20px">
+                            <span id="close-pop-up-btn">&times</span>
+                        </div>
+                        <section action="" style="margin-top: 40px">
+                            <div class="row text-center">
+                                <h3>New User Registration</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <input class="form-control register-input-field" id="register-username"
+                                           placeholder="Username *" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <input class="form-control register-input-field" id="register-email"
+                                           placeholder="Your Email *" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <input class="form-control register-input-field" id="register-password"
+                                           placeholder="Password *" required>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <input type="submit" class="btn btn-primary" value="Submit" id="register-submit-btn">
+                            </div>
+                        </section>
+                        <br>
+                    </div>
+                </section>
+            </section>
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field" style="display: flex;">
@@ -320,8 +442,54 @@
 
     popoto.graph.WHEEL_ZOOM_ENABLED = false;
 
-    const server_url = "http://localhost:7777/auth/login"
+    const server_login_url = "http://localhost:7777/auth/login"
+    const server_signup_url = "http://localhost:7777/auth/signup"
     const url = "https://db-mpxde4aj2xvcwzm7zqof.graphenedb.com:24780/db/data/transaction/commit";
+
+    $('#register-button').on('click', function() {
+        $('#register-form').removeClass("hide-me")
+    })
+
+    $('#close-pop-up-btn').on('click', function() {
+        $('#register-form').addClass("hide-me")
+    })
+
+    $('#register-submit-btn').on('click', function() {
+        let username = $('#register-username').val()
+        let email = $('#register-email').val()
+        let password = $('#register-password').val()
+        if (username === "" || email === "" || password === "") {
+            return;
+        }else{
+            console.log(`register new users, username: ${username}, email: ${email}, password: ${password}`)
+            fetch(server_signup_url,
+                {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Accept': '*/*',
+                        // "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NTEzOTMyLCJleHAiOjE2MDU1MTc1MzJ9.D9MqxVO3lyrD4ux4H6rRq6KvUYNE-tG11simmza1EcY"
+                    },
+                    body: JSON.stringify({
+                        "username": username,
+                        "email":email,
+                        "password": password
+                    })
+                }
+            ).catch(err => console.log(err)
+            ).then(response => {
+                    console.log(response)
+                    console.log(response.text)
+                    response.json()
+                    return response
+                }
+            ).then(data => {
+                console.log(data)
+                $('#register-form').addClass("hide-me")
+            })
+        }
+    })
+
 
     function logout() {
         logged_in = false;
@@ -330,31 +498,32 @@
         $("#password").removeClass("hide-me")
         $("#username_p").removeClass("hide-me")
         $("#password_p").removeClass("hide-me")
-        $("#custom-add-drop-section").addClass("hide-me")
+        $("#register-button").removeClass("hide-me")
 
+        $("#custom-add-drop-section").addClass("hide-me")
         $("#logout-button").addClass("hide-me")
     }
 
     function login() {
         console.log("login clicked");
-        user = document.getElementById("username").value
+        let user = document.getElementById("username").value
         console.log("username: " + user)
         if (user == "") {
             return;
         }
-        pswd = document.getElementById("password").value
-        if (pswd == "") {
+        let password = document.getElementById("password").value
+        if (password == "") {
             return;
         }
 
-        console.log("pswd: " + pswd)
-        login_check = {
+        console.log("pswd: " + password)
+        let login_check = {
             "username": user,
-            "password": pswd
+            "password": password
         }
 
         console.log(login_check)
-        fetch(server_url,
+        fetch(server_login_url,
             {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 headers: {
@@ -386,6 +555,7 @@
                 $("#password").addClass("hide-me")
                 $("#username_p").addClass("hide-me")
                 $("#password_p").addClass("hide-me")
+                $("#register-button").addClass("hide-me")
             }
         })
     }
