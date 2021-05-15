@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-    <title>Auto complete</title>
+    <title>Term Visualizer</title>
     <link rel="stylesheet" href="node_modules/popoto/dist/popoto.min.css">
     <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css">
     <link rel="stylesheet" href="css/auto-complete.css">
@@ -217,6 +217,7 @@
     <script>
         var logged_in = false;
         window.onload = function () {
+            // make the add node/relation form to the last element in the left navigation section
             let custom_content = $('#custom-add-drop-section')
             $('#popoto-taxonomy').append(custom_content)
         }
@@ -267,12 +268,12 @@
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863; flex-grow: 2;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field" style="display: flex;">
-                    <input id="content-search" type="search">
-                    <button onclick="search()" id="query_search_btn" class="btn btn-info">Search</button>
-<!--                    <input id="search" type="search" required>-->
-<!--                    <label class="label-icon" for="search">-->
-<!--                        <i class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i>-->
-<!--                    </label>-->
+                    <!--                    <input id="content-search" type="search">-->
+                    <!--                    <button onclick="search()" id="query_search_btn" class="btn btn-info">Search</button>-->
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search">
+                        <i class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i>
+                    </label>
                 </div>
             </form>
             <p id="username_p">Username</p>
@@ -310,6 +311,7 @@
                                     <option value="1">Topic</option>
                                     <option value="2">Model</option>
                                     <option value="3">Algorithm</option>
+                                    <option value="4">Metrics</option>
                                 </select>
                             </div>
                             <div class="custom-input-line-wrapper">
@@ -414,7 +416,7 @@
 
 <script src="node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
 <script src="node_modules/d3/dist/d3.min.js" charset="utf-8"></script>
-<script src="node_modules/popoto/dist/popoto.min.js" charset="utf-8"></script>
+<script src="node_modules/popoto/dist/popoto.js" charset="utf-8"></script>
 <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script src="js/auto-complete.min.js"></script>
 <script src="js/main.js"></script>
@@ -574,7 +576,6 @@
 
     function add_node() {
 
-        console.log("fuck")
         var name = document.getElementById("add-node-name").value;
         e = document.getElementById("add-node-select")
         var attribute = e.options[e.selectedIndex].text;
@@ -604,6 +605,27 @@
 
     }
 
+    async function find_educationalWeb_link(name) {
+        var url = "http://localhost:7777/api/search";
+        let data = {
+            "keyword": name
+        };
+        try {
+            let result = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic bmVvNGo6Zmx5',
+                    'Accept': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(data),
+            });
+            return result.text();
+        }catch (e) {
+            console.log(e)
+            return ""
+        }
+    }
     function add_relation() {
 
         var src_value = document.getElementById("add-rel-src-name").value;
@@ -643,14 +665,126 @@
         "Topic": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
+            "getImagePath": function (node) {
+                return 'image/node/topic/topic.svg';
+            },
+            "displayResults": async function (pResultElmt) {
+                let custom_div = pResultElmt.append("div").attr("style", "display: flex;");
+                custom_div.append("img")
+                    .attr("height", "20px")
+                    .attr("src", function (result) {
+                        return 'image/node/topic/topic.svg';
+                    });
+
+                let name = ""
+                let knowledge_name = custom_div.append("span").attr("style", "margin-left: 20px;");
+                knowledge_name.text(function (result) {
+                    name = result.attributes.name
+                    return `${result.label}: ${result.attributes.name}`;
+                })
+
+                let ppt_addr = await find_educationalWeb_link(name);
+                if (ppt_addr !== "") {
+                    let anchor = custom_div.append("a").attr("style", "margin-left: 10px;");
+                    anchor.text(function () {
+                        return "ppt_link";
+                    }).attr("href", ppt_addr)
+                        .attr("target", "_blank");
+                }
+            }
         },
         "Model": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
+            "getImagePath": function (node) {
+                return 'image/node/model/model.svg';
+            },
+            "displayResults": async function (pResultElmt) {
+                let custom_div = pResultElmt.append("div").attr("style", "display: flex;");
+                custom_div.append("img")
+                    .attr("height", "20px")
+                    .attr("src", function (result) {
+                        return 'image/node/model/model.svg';
+                    });
+
+                let name = ""
+                let knowledge_name = custom_div.append("span").attr("style", "margin-left: 10px;");
+                knowledge_name.text(function (result) {
+                    name = result.attributes.name
+                    return `${result.label}: ${result.attributes.name}`;
+                })
+
+                let ppt_addr = await find_educationalWeb_link(name);
+                if (ppt_addr !== "") {
+                    let anchor = custom_div.append("a").attr("style", "margin-left: 20px;");
+                    anchor.text(function () {
+                        return "ppt_link";
+                    }).attr("href", ppt_addr)
+                        .attr("target", "_blank");
+                }
+            }
         },
         "Algorithm": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
+            "getImagePath": function (node) {
+                return 'image/node/algorithm/algorithm.svg';
+            },
+            "displayResults": async function (pResultElmt) {
+                let custom_div = pResultElmt.append("div").attr("style", "display: flex;");
+                custom_div.append("img")
+                    .attr("height", "20px")
+                    .attr("src", function (result) {
+                        return 'image/node/algorithm/algorithm.svg';
+                    });
+
+                let name = ""
+                let knowledge_name = custom_div.append("span").attr("style", "margin-left: 10px;");
+                knowledge_name.text(function (result) {
+                    name = result.attributes.name
+                    return `${result.label}: ${result.attributes.name}`;
+                })
+
+                let ppt_addr = await find_educationalWeb_link(name);
+                if (ppt_addr !== "") {
+                    let anchor = custom_div.append("a").attr("style", "margin-left: 20px;");
+                    anchor.text(function () {
+                        return "ppt_link";
+                    }).attr("href", ppt_addr)
+                        .attr("target", "_blank");
+                }
+            }
+        },
+        "Metrics": {
+            "returnAttributes": ["name"],
+            "constraintAttribute": "name",
+            "getImagePath": function (node) {
+                return 'image/node/metrics/metrics.svg';
+            },
+            "displayResults": async function (pResultElmt) {
+                let custom_div = pResultElmt.append("div").attr("style", "display: flex;");
+                custom_div.append("img")
+                    .attr("height", "20px")
+                    .attr("src", function (result) {
+                        return 'image/node/Metrics/Metrics.svg';
+                    });
+
+                let name = ""
+                let knowledge_name = custom_div.append("span").attr("style", "margin-left: 10px;");
+                knowledge_name.text(function (result) {
+                    name = result.attributes.name
+                    return `${result.label}: ${result.attributes.name}`;
+                })
+
+                let ppt_addr = await find_educationalWeb_link(name);
+                if (ppt_addr !== "") {
+                    let anchor = custom_div.append("a").attr("style", "margin-left: 20px;");
+                    anchor.text(function () {
+                        return "ppt_link";
+                    }).attr("href", ppt_addr)
+                        .attr("target", "_blank");
+                }
+            }
         }
     };
 

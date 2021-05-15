@@ -1,9 +1,8 @@
 var main = new autoComplete({
     selector: '#search',
     minChars: 0,
-
     source: function (term, suggest) {
-        var query = "match (p:Person)-[r]->(m:Movie) WHERE (toLower(m.title) contains $term) return DISTINCT m.title AS title, type(r) as rel order by title LIMIT 20";
+        var query = "match (a) where toLower(a.name) contains $term return a.name, labels(a)";
 
         var statements = [
             {
@@ -21,6 +20,8 @@ var main = new autoComplete({
                 "statements": statements
             })
             .done(function (data) {
+                console.log("wtf")
+                console.log(data)
                 var res = data.results[0].data.map(function (d) {
                     return d.row
                 });
@@ -33,31 +34,28 @@ var main = new autoComplete({
     },
     renderItem: function (item, search) {
         search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
-        var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-        var title = item[0];
-        var rel = item[1];
-        var label = "Movie";
-        var imagePath = popoto.provider.node.getImagePath({
-            label: label,
-            type: popoto.graph.node.NodeTypes.VALUE,
-            attributes: {title: title}
-        });
+        let re_rule = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
 
-        return '<div class="autocomplete-suggestion" data-id="' + title + '" data-rel="' + rel + '" data-label="' + label + '" data-search="' + search + '"><img width="30px" height="45px" src="' + imagePath + '"> ' + rel + " "+ title.replace(re, "<b>$1</b>") + '</div>';
+        let name = item[0];
+        let collection_name = item[1][0];
+        if  (collection_name == null){
+            return
+        }
+        let imagePath = `image/node/${collection_name.toLowerCase()}/${collection_name.toLowerCase()}.svg`
+        console.log(imagePath)
+        let search_entry = `<div class="autocomplete-suggestion" data-name="${name}"  data-collection="${collection_name}" data-search="${search}"> <img width="30px" height="45px" src="${imagePath}"> ${collection_name}: ${name.replace(re_rule, "<b>$1</b>")} </div>`;
+        return search_entry
     },
     onSelect: function (e, term, item) {
-        var id = item.getAttribute('data-id');
-        var rel = item.getAttribute('data-rel');
-        var label = item.getAttribute('data-label');
+        let name = item.getAttribute('data-name');
+        let label = item.getAttribute('data-collection');
 
-        document.getElementById('search').value = "";
-        $("#search").blur();
-
-        popoto.graph.node.addRelatedValues(popoto.graph.getRootNode(), [{
-            id: id,
-            rel: rel,
-            label: label
-        }]);
-
+        popoto.graph.mainLabel = {
+            label: label,
+            value: {
+                name: name
+            }
+        };
+        popoto.tools.reset();
     }
 });
