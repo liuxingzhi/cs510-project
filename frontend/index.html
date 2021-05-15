@@ -132,12 +132,12 @@
                             class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;" onclick="login()"></i></label>-->
                 </div>
             </form>
-            <p>Username</p>
+            <p id="username_p">Username</p>
             <input id="username" type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
-            <p>Password</p>
+            <p id="password_p">Password</p>
             <input id="password" type="text" style="width: min-content; padding-top: 10px; margin-left: 10px; margin-right: 10px;" size="20">
             <!-- <button type='button' onclick="login()">Login</button> -->
-            <button type='button' onclick="login()">Login</button>
+            <button type='button' onclick="login()" id="loginbutton">Login</button>
         </div>
     </nav>
 </div>
@@ -152,9 +152,9 @@
                     class="ppt-icon ppt-icon-logo" style="color:#8bb71a;"></i> Graph
                 Query
             </div>
-            <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0;">
+            <div class="collapsible-body no-padding" style="height: 600px; border-bottom: 0">
                 <div id="popoto-taxonomy" class="ppt-taxo-nav" style="color: white; width: 280px">
-                    <section id="custom-add-drop-section">
+                    <section id="custom-add-drop-section" style="display: none;">
                         <section id="add-node-form" class="custom-action-section">
                             <b>Add Node</b>
                             <div class="custom-select-line-wrapper">
@@ -271,6 +271,55 @@
 
     function login() {
         console.log("login clicked");
+        user = document.getElementById("username").value
+        console.log("username: "+user)
+        if (user == ""){
+            return;
+        }
+        pswd = document.getElementById("password").value
+        if (pswd == ""){
+            return;
+        }
+        console.log("pswd: "+pswd)
+        login_check = {
+            "username": user,
+            "password": pswd
+        }
+        console.log(login_check)
+        fetch(server_url, 
+        {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Accept': '*/*',
+                // "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NTEzOTMyLCJleHAiOjE2MDU1MTc1MzJ9.D9MqxVO3lyrD4ux4H6rRq6KvUYNE-tG11simmza1EcY"
+            },
+            body: JSON.stringify(login_check)
+        }
+        ).catch(err => console.log(err)
+        ).then(response => {
+            console.log(response)
+            console.log(response.text)
+            response.json()
+            return response
+        }
+        ).then(data => {
+            console.log(data)
+            if (data.status == 400 || data.status==401 || data.status==500){
+                console.log("login failed; stop adding node")
+                return;
+            }
+            else{
+                editor_panel = document.getElementById("custom-add-drop-section")
+                editor_panel.style.display = 'block'
+                login_button = document.getElementById("loginbutton")
+                login_button.innerHTML = "Logged in"
+                document.getElementById("username").style.display = 'none'
+                document.getElementById("password").style.display = 'none'
+                document.getElementById("username_p").style.display = 'none'
+                document.getElementById("password_p").style.display = 'none'
+            }
+        })
     }
 
     function search() {
