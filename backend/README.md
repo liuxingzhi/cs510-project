@@ -1,3 +1,4 @@
+# Text Mining Knowledge Graph Visualizer Server
 ## Environment setup
 In backend directory, type following command
 ```bash

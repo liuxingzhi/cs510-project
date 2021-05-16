@@ -29,7 +29,11 @@ mongoose.connect(config.mongoUrl,
         useCreateIndex: true,
         useUnifiedTopology: true
     }, (err) => {
-        console.log('mongo db connection callback, error: ', err)
+        if(err != null){
+            console.log('mongo db connection error!, ', err)
+        }else{
+            console.log('mongo db connection successful')
+        }
     })
 
 app.use(function (req, res, next) {
