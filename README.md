@@ -15,6 +15,7 @@ node server.js
 ```
 When succeeded, following message should be printed in the terminal
 In case of Cloud mongoDB or Cloud Neo4j Database expired, it may fail
+
 ![](Server-Succeed.PNG)
 
 
