@@ -1,0 +1,12 @@
+﻿n
+"{""name"":EM Algorithm}"
+"{""name"":Viterbi Algorithm}"
+"{""name"":Forward Algorithm}"
+"{""name"":Baum-Welch Algorithm}"
+"{""name"":Backward Algorithm}"
+"{""name"":Additive Smoothing}"
+"{""name"":Kneser-Ney Smoothing}"
+"{""name"":Jelinek-Mercer Smoothing}"
+"{""name"":Dirichlet Smoothing}"
+"{""name"":SGD}"
+"{""name"":CNN}"

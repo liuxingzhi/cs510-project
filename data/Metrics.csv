@@ -1,0 +1,13 @@
+﻿n
+"{""name"":Precision}"
+"{""name"":Recall}"
+"{""name"":Average Precision}"
+"{""name"":Mean Average Precision}"
+"{""name"":F Measure}"
+"{""name"":Mean Reciprocal Rank}"
+"{""name"":nDCG}"
+"{""name"":Entropy}"
+"{""name"":Cross Entropy}"
+"{""name"":Conditional Entropy}"
+"{""name"":Mutual Information}"
+"{""name"":K-L Divergence}"
