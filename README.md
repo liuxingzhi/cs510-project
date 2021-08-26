@@ -1,4 +1,4 @@
-# cs510-project, 
+# cs510-project
 ## Description
 This is the diretory for CS510 project, a Text Mining Knowledge Graph Visualizer to 
 facilitate the experience of educational web with support of multi-user edition to build the graph better.
